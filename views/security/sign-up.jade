@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+
+  form(method="POST", action="/user")
+    fieldset
+      legend Sign Up
+      mixin input('text', 'Username', 'username', username)
+      mixin input('password', 'Password', 'password')
+      mixin input('password', 'Confirm password', 'password_confirmation')
+      input(type='hidden', name='_csrf', value=csrf_token)
+      input(type="submit", value="Sign Up")
+

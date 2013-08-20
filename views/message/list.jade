@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+
+  ul#messages
+
+    - each message in messages
+      li
+        div
+          span= message.created_at.toLocaleDateString()
+          if loggedUser && loggedUser.username == message.author.username
+            form(method="", action="/delete/#{message._id}")
+              button(type="submit") Delete
+        mixin avatar(message.author)
+        strong=  message.author.username
+        q=   message.message

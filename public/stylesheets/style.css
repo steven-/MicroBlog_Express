@@ -1,8 +1,789 @@
+/*
+
+@todo : radial-gradient prefixes (such a pain in the ***, weird behaviours with Firefox);
+
+
+*/
+
+
+/* -------------------------------
+  Global
+------------------------------- */
+
+html { overflow-y: scroll; }
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #DAEBEB;
+  font-family: Arial, sans-serif;
+  padding-bottom: 2em;
+  line-height: 1.1em;
 }
 
 a {
-  color: #00B7FF;
+  color: #36B0D5;
+  text-decoration: none;
 }
+a:hover { text-decoration: underline; }
+
+
+
+.wrapper {
+  max-width: 60em;
+  margin: 0 auto;
+}
+
+
+q:before,
+q:after {
+ content: "";
+}
+
+
+
+
+/* -------------------------------
+  Clearfix
+------------------------------- */
+
+header:after,
+.messages li:after,
+#users:after
+{
+  clear: both;
+  content: '';
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+
+#users a:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+
+
+
+
+/* -------------------------------------------------
+  Alerts (flash messages, global form errors)
+------------------------------------------------- */
+
+.alert-success, .alert-info {
+  font-weight: bold;
+  text-align: center;
+  padding: 0 2em 2em;
+  margin-bottom: 2em;
+}
+
+.alert-success {
+  color: #4DC381;
+
+  background-image: -webkit-radial-gradient(ellipse 50% 7px at 50% 100%, #4dc381, #fff 110%);
+     background-image: -moz-radial-gradient(ellipse 50% 7px at 50% 100%, #4dc381, #fff 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 7px at 50% 100%, #4dc381, #fff 110%);
+     background-image: -o-radial-gradient(ellipse 50% 7px at 50% 100%, #4dc381, #fff 110%);
+        background:   radial-gradient(ellipse 50% 7px at 50% 100%, #4dc381, #fff 110%);
+
+}
+
+.alert-info {
+  color: #4DB8C3;
+  background-image: -webkit-radial-gradient(ellipse 50% 7px at 50% 100%, #4db8c3, #fff 110%);
+     background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 100%, #4db8c3, #fff 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 100%, #4db8c3, #fff 110%);
+     background-image: -o-radial-gradient(ellipse 50% 5px at 50% 100%, #4db8c3, #fff 110%);
+        background:   radial-gradient(ellipse 50% 7px at 50% 100%, #4db8c3, #fff 110%);
+}
+
+.alert-error {
+  color: #C34D62;
+  font-weight: bold;
+  padding: 1em 1em 2em 0;
+}
+
+
+
+
+.alert-success:before, .alert-info:before, .alert-error:before {
+  font-family: 'post';
+  padding-right: 1em;
+}
+.alert-success:before, .alert-info:before {
+  content: "\f00c";
+}
+.alert-error:before {
+  content: "\f00d";
+}
+
+
+
+
+
+/* ------------------------
+  Common
+------------------------ */
+
+/* Form + button for DELETE requests (instead of link)*/
+#messages button,
+#profile button {
+  font-size: 1em;
+  background: none;
+  border: none;
+  color: #36B0D5;
+  cursor: pointer;
+  margin: 0;
+}
+#messages button:hover,
+#messages button:focus,
+#profile button:hover,
+#profile button:focus {
+  text-decoration: underline;
+}
+#messages button:after,
+#profile button:after {
+  font-family: 'post';
+  content: " \e000";
+}
+
+
+
+
+
+
+
+
+/* ------------------------
+  Header
+------------------------ */
+header {
+  background: #1f949e;
+  color: #fff;
+  padding: 3.5em 0;
+}
+
+h1 {
+  float: left;
+  font-size: 1.7em;
+  font-weight: bold;
+}
+
+h1 small {font-size: 0.6em; }
+
+header div div {
+  float: right;
+  font-size: 0.8em;
+}
+
+header a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+
+
+
+/* ------------------------------------------------
+  Nav
+------------------------------------------------ */
+
+nav {
+  background: #000;
+  padding: 1em 0 0;
+}
+
+nav li {
+  display: inline-block;
+  font-size: 0.9em;
+  min-width: 8em;
+  padding: 1em 1em 2em;
+  text-align: center;
+  -webkit-border-radius:5px 5px 0 0;
+     -moz-border-radius:5px 5px 0 0;
+      border-radius:5px 5px 0 0;
+}
+
+nav a {
+  color: #FFF;
+  display: block;
+  font-weight: bold;
+}
+
+nav i {
+  display: block;
+  font-size: 1.5em;
+  margin-bottom: 1em;
+  -webkit-transition:all 0.2s;
+     -moz-transition:all 0.2s;
+     -o-transition:all 0.2s;
+      transition:all 0.2s;
+}
+
+
+/*- - - - - - - -*/
+/* Hovered Tab */
+
+nav a:hover {
+  color: #53c3eb;
+  text-decoration: none;
+}
+
+nav a:hover i {
+  -webkit-transform:scale(1.3);
+     -moz-transform:scale(1.3);
+    -ms-transform:scale(1.3);
+     -o-transform:scale(1.3);
+      transform:scale(1.3);
+}
+
+
+/*- - - - - - - -*/
+/* Active Tab */
+
+nav li.active {
+  background: #fff;
+  padding-top: 0;
+  position: relative;
+  top: 7px;
+}
+
+nav li.active a {
+  color: #333;
+  position: relative;
+  top: 2em;
+}
+
+
+nav li.active i {
+  -webkit-transform:scale(1.4);
+     -moz-transform:scale(1.4);
+    -ms-transform:scale(1.4);
+     -o-transform:scale(1.4);
+      transform:scale(1.4);
+}
+
+
+/*- - - - - - - - -  */
+/* Sign in, up, out */
+
+.connection {
+  float: right;
+  font-size: 0.8em;
+  margin-left: 2em;
+  margin-top: 0.5em;
+  min-width: 0;
+}
+
+.connection a {
+  color: #ccc;
+  padding: 0.8em 1em;
+  -webkit-border-radius:15px;
+     -moz-border-radius:15px;
+      border-radius:15px;
+}
+
+.connection a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.connection.active {
+  background: none;
+  padding-top: 0.4em;
+
+}
+
+.connection.active a {
+  background: #fff;
+  color: #333;
+  position: static;
+  -webkit-transform:none;
+     -moz-transform:none;
+    -ms-transform:none;
+     -o-transform:none;
+      transform:none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------------------
+  Content
+----------------------------- */
+section {
+  max-width: 56em;
+  margin: 0 auto;
+  background: #fff;
+  padding: 3.5em 2em 2em;
+  -webkit-border-radius:0 0 5px 5px;
+     -moz-border-radius:0 0 5px 5px;
+      border-radius:0 0 5px 5px;
+}
+
+
+
+
+
+
+
+
+/* ------------------------------
+  Messages
+----------------------------- */
+
+#messages li {
+  /*border-bottom: 1px solid #E6E6E6;*/
+  font-size: 0.9em;
+  padding: 4em;
+  background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 0, #ccc, #fff);
+     background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 0, #ccc, #fff);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 0, #ccc, #fff);
+     background-image: -o-radial-gradient(ellipse 50% 5px at 50% 0, #ccc, #fff);
+        background:   radial-gradient(ellipse 50% 5px at 50% 0, #ccc, #fff);
+}
+
+
+#messages li:first-child {
+  background: none;
+  padding-top: 2em;
+}
+#messages li:last-child { border-bottom: none; }
+
+
+/* avatar */
+#messages img {
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 1.5em;
+}
+
+
+/* date + delete (link or btn)*/
+#messages div {
+  float: right;
+  font-size: 0.8em;
+  margin-left: 1em;
+}
+#messages span { color: #333; } /* date */
+#messages a { /* delete link */
+  display: block;
+  padding-top: 2em;
+  text-align: right;
+}
+
+
+/* message content */
+#messages q {
+  display: block;
+  margin-right: 8em;
+  margin-top: 1em;
+}
+
+
+/* Form + button for DELETE requests (instead of link) */
+/* others rules cf @ common section above */
+#messages form { text-align: right; }
+#messages button { padding: 2em 0 0; }
+
+
+
+
+
+
+
+
+/* ---------------------------------------------
+        Users list
+-------------------------------------------- */
+
+/*- - - - - - - - - - - */
+/*      2 colunms       */
+
+#users li {
+  width: 48%;
+  display: inline-block;
+}
+
+#users li:nth-child(odd) {
+  padding: 1em 2% 1em 0;
+  clear: left;
+  float: left;
+}
+
+#users li:nth-child(even) {
+  padding: 1em 0 1em 2%;
+  clear: right;
+  float: right;
+}
+
+#users li:after { /* radial shadow */
+  content: '';
+  display: block;
+  height: 5px;
+  background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 0, #aaa, #fff 110%);
+     background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 0, #aaa, #fff 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 0, #aaa, #fff 110%);
+     background-image: -o-radial-gradient(ellipse 50% 5px at 50% 0, #aaa, #fff 110%);
+      background-image:   radial-gradient(ellipse 50% 5px at 50% 0, #aaa, #fff 110%);
+}
+#users li:hover:after {
+  background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 0, #777, #fff 110%);
+     background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 0, #777, #fff 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 0, #777, #fff 110%);
+     background-image: -o-radial-gradient(ellipse 50% 5px at 50% 0, #777, #fff 110%);
+      background-image:   radial-gradient(ellipse 50% 5px at 50% 0, #777, #fff 110%);
+}
+
+#users a {
+  background: #f3f3f3;
+  color: #000;
+  display: block;
+  padding: 2em;
+  -webkit-transition:background .3s ease-out;
+     -moz-transition:background .3s ease-out;
+     -o-transition:background .3s ease-out;
+      transition:background .3s ease-out;
+}
+#users a:hover {
+  background: #e3f0f2;
+  text-decoration: none;
+}
+
+
+
+/*  Avatar  */
+#users img {
+  float: left;
+  margin-right: 1em;
+  margin-bottom: 1.5em; /* prevents text below img (bio=160 chars max)*/
+}
+
+/* Chevron  */
+#users i {
+  float: right;
+  font-size: 0.75em;
+}
+#users a:hover i {color: #36B0D5; }
+#users a:hover i:after {
+  color: #36b0d5;
+  content: "See messages";
+  padding-left: 1em;
+}
+
+/*  Bio   */
+#users span {  /* Clearfix !! */
+  display: block;
+  font-size: 0.9em;
+  margin-top: 1.2em;
+}
+
+
+
+
+
+
+
+/* ----------------------------------------------------
+  User Profile
+----------------------------------------------------*/
+
+
+/*- - - - - - - - - - */
+/*     Profile      */
+
+#profile > div { /* Clearfix ! */
+  background-image: -webkit-radial-gradient(ellipse 50% 5% at 50% 100%, #ccc, #f5f5f5);
+     background-image: -moz-radial-gradient(ellipse 50% 5% at 50% 100%, #ccc, #f5f5f5);
+    background-image: -ms-radial-gradient(ellipse 50% 5% at 50% 100%, #ccc, #f5f5f5);
+     background-image: -o-radial-gradient(ellipse 50% 5% at 50% 100%, #ccc, #f5f5f5);
+      background-image:   radial-gradient(ellipse 50% 5% at 50% 100%, #ccc, #f5f5f5);
+  margin-bottom: 3em;
+  padding: 2em 2em 4em 2em;
+}
+
+/* username */
+#profile h2 {
+  font-size: 1.6em;
+  font-weight: bold;
+}
+
+/* avatar */
+#profile img {
+  float: left;
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
+
+/* bio */
+#profile > div p {
+  font-size: 0.9em;
+  margin-top: 2em;
+  margin-bottom: -2em;
+}
+
+/* Edit profile link */
+#profile a:first-child {
+  float: right;
+  font-size: 0.85em;
+}
+
+
+
+/*- - - - - - - - - - */
+/*     Messages      */
+
+#profile li {
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 0.9em;
+  padding: 2.5em;
+}
+#profile li:last-child {
+  border-bottom: none;
+}
+
+/* date + delete link */
+#profile li div {
+  float: right;
+  font-size: 0.8em;
+  margin-left: 3em;
+}
+#profile span { color: #333; } /* date */
+
+
+/* Form for DELETE requests (instead of link) */
+/* others rules cf @ common section above */
+#profile form { float: right; }
+#profile li a, /* delete link */
+#profile button { /* or button for delete requests */
+  display: inline-block;
+  padding-left: 2em;
+  top: -1.4em;
+  position: relative;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------------
+  Forms
+----------------------------------------*/
+
+fieldset {
+  margin: 0 auto;
+  padding: 0;
+  width: 14rem;
+}
+
+legend {
+  border: none;
+  color: #333333;
+  font-size: 1.35em;
+  padding: 0 0 1em;
+  margin-bottom: 1.5em;
+  text-align: center;
+  width: 100%;
+  background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 100%, #ccc, #fff 110%);
+     background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 100%, #ccc, #fff 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 100%, #ccc, #fff 110%);
+     background-image: -o-radial-gradient(ellipse 50% 5px at 50% 100%, #ccc, #fff 110%);
+      background-image:   radial-gradient(ellipse 50% 5px at 50% 100%, #ccc, #fff 110%);
+  width: 350%; /* for shadow */
+}
+
+label {
+  color: #555;
+  display: block;
+  font-size: 0.9em;
+  font-weight: bold;
+  line-height: 2.5em;
+}
+label:after { content : ' :'; }
+
+
+input[type=text],
+input[type=password],
+textarea {
+  font-family: Arial, sans-serif;
+  color: #555;
+  border: 1px solid #cecece;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+      border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  display: block;
+  font-size: 0.9em;
+  height: 1.5em;
+  padding: 0.3rem 0.6rem;
+  margin: 0 0 1em;
+  -webkit-transition: border linear .2s, box-shadow linear .2s;
+     -moz-transition: border linear .2s, box-shadow linear .2s;
+     -o-transition: border linear .2s, box-shadow linear .2s;
+      transition: border linear .2s, box-shadow linear .2s;
+  width: 12.8rem;
+}
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus {
+   border-color: #36B0D5;
+   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #36b0d5;
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #36b0d5;
+       box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px #36b0d5;
+   outline:0;
+}
+
+input[type=file] { margin-bottom: 2em; }
+
+textarea{ height:auto; }
+
+input[type=submit] {
+  background: #58b6fe;
+  border: 2px solid #3da0bd;
+  border-radius: 5px;
+  color: #FFF;
+  cursor: pointer;
+  display: block;
+  font-weight: bold;
+  margin-top: 3em;
+  padding: 0.4rem 0.6rem;
+  -webkit-transition:all 0.3s;
+     -moz-transition:all 0.3s;
+     -o-transition:all 0.3s;
+      transition:all 0.3s;
+  width: 14rem;
+}
+input[type=submit]:hover,
+input[type=submit]:focus {
+  background: #fff;
+  border-color: #30a0f6;
+  color: #30a0f6;
+  text-shadow: none;
+}
+
+form .error {
+  display: block;
+  color: #c34d62;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CODING IN THE DARK ?? */
+/* CODING IN THE DARK ?? */
+/* CODING IN THE DARK ?? */
+/* CODING IN THE DARK ?? */
+
+/* ==> uncomment that: */
+
+/*
+html {
+  overflow: hidden;
+}
+
+ header, body {
+   background-color: #001C23;
+ }
+
+  header {
+    color: #ccc;
+  }
+
+
+  nav a { color: #888; }
+  nav li.active, section { background: #222; }
+  nav li.active a { color: #ccc; }
+
+  section { color: #ccc; }
+
+
+  #messages li {
+    background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222);
+    background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222);
+    background-image: -o-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222);
+    background:   radial-gradient(ellipse 50% 5px at 50% 0, #000, #222);
+  }
+
+
+  #messages span,
+  #profile span { color: #777; }
+
+
+  #users li:after {
+    background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 0, #111, #222 110%);
+    background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 0, #111, #222 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 0, #111, #222 110%);
+    background-image: -o-radial-gradient(ellipse 50% 5px at 50% 0, #111, #222 110%);
+    background-image:   radial-gradient(ellipse 50% 5px at 50% 0, #111, #222 110%);
+  }
+  #users li:hover:after {
+    background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222 110%);
+    background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222 110%);
+    background-image: -o-radial-gradient(ellipse 50% 5px at 50% 0, #000, #222 110%);
+    background-image:   radial-gradient(ellipse 50% 5px at 50% 0, #000, #222 110%);
+  }
+
+  #users a {
+    background: #333;
+    color: #ccc;
+  }
+  #users a:hover { background: #444; }
+
+
+  #profile > div {
+    background-image: -webkit-radial-gradient(ellipse 50% 5% at 50% 100%, #111, #282828);
+    background-image: -moz-radial-gradient(ellipse 50% 5% at 50% 100%, #111, #282828);
+    background-image: -ms-radial-gradient(ellipse 50% 5% at 50% 100%, #111, #282828);
+    background-image: -o-radial-gradient(ellipse 50% 5% at 50% 100%, #111, #282828);
+    background-image:   radial-gradient(ellipse 50% 5% at 50% 100%, #111, #282828);
+    margin-bottom: 3em;
+    padding: 2em 2em 4em 2em;
+  }
+
+
+  legend {
+    color: #ccc;
+    background-image: -webkit-radial-gradient(ellipse 50% 5px at 50% 100%, #000, #222 110%);
+    background-image: -moz-radial-gradient(ellipse 50% 5px at 50% 100%, #000, #222 110%);
+    background-image: -ms-radial-gradient(ellipse 50% 5px at 50% 100%, #000, #222 110%);
+    background-image: -o-radial-gradient(ellipse 50% 5px at 50% 100%, #000, #222 110%);
+    background-image:   radial-gradient(ellipse 50% 5px at 50% 100%, #000, #222 110%);
+  }
+
+  label { color: #ccc; }
+
+  textarea, input[type=text],
+  input[type=password] { background: #bbb; }

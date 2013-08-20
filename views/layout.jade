@@ -1,7 +1,27 @@
-doctype 5
-html
+include mixins/mixins
+!!! 5
+html(lang="en")
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+  meta(charset="utf-8")
+  title= title
+  link(rel='stylesheet', href='/stylesheets/reset.css')
+  link(rel='stylesheet', href='/stylesheets/style.css')
+  link(rel='stylesheet', href='/stylesheets/font-icons.css')
   body
-    block content
+    header
+      .wrapper
+        h1 MicroBlogMVC&nbsp;
+          small - Express 3.3.4
+        div Written by&nbsp;
+          a(src="#") Steven Illien
+
+    include nav
+
+
+    section
+
+      each messages, type in FlashBag.all
+        each message in messages
+          p(class="alert-#{type}") #{message}
+
+      block content

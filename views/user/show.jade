@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  #profile
+    div
+      if loggedUser && loggedUser.username == user.username
+        a(href="/edit-profile") Edit your profile&nbsp;
+          i.icon-user
+      h2
+        mixin avatar(user)
+        | #{user.username}
+      if user.bio
+        p= user.bio
+
+    ul
+      if messages.length
+        each message in messages
+          li
+            div
+              span= message.created_at.toLocaleDateString()
+              if loggedUser && loggedUser.username == user.username
+                form(method="", action="/delete/#{message._id}")
+                  button(type="submit") Delete
+            q= message.message
+      else
+        p
+          strong= user.username
+          |  has not posted any message yet

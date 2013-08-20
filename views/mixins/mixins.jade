@@ -1,0 +1,43 @@
+mixin navli (uri, text, icon, _class)
+  if  routePath === uri
+    - _class = _class ? _class + ' active' : 'active'
+  else
+    - _class = _class || ''
+  li(class="#{_class}")
+    a(href="#{uri}")
+      if icon
+        i(class="icon-#{icon}")
+      | #{text}
+
+
+
+mixin fuckupNavli(uri, text, icon)
+  if (routePath === '/user/:username' && loggedUser && loggedUser.username === req.param('username'))
+    - _class = 'active'
+  else
+    - _class = routePath === '/edit-profile' ? 'active' : '';
+  mixin navli(uri, text, icon, _class)
+
+
+
+mixin avatar(user)
+  if user.avatar
+    img(src="/avatars/#{user._id + '.' + user.avatar}", alt="")
+  else
+    img(src="/avatars/default_avatar.png", alt="")
+
+
+
+mixin input(type, label, name, value)
+  label(for="#{name}") #{label}
+  if errors[name]
+    span.error= errors[name].msg
+  input(type="#{type}", name="#{name}", id="#{name}", value="#{errors[name] ? errors[name].value : value ? value : ''}")
+
+
+
+mixin textarea(label, name, value)
+  label(for="#{name}") #{label}
+  if errors[name]
+    span.error= errors[name].msg
+  textarea(name="#{name}", id="#{name}", rows="6") #{errors[name] ? errors[name].value : value ? value : ''}

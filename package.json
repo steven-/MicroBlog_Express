@@ -1,12 +1,20 @@
 {
-  "name": "application-name",
+  "name": "MicroBlogMVC_Express",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "express": "3.3.4",
-    "jade": "*"
+    "jade": "*",
+    "mongoose": "3.6.16",
+    "express-validator": "0.7.0",
+    "express-form": "0.8.0",
+    "async": "0.2.9",
+    "imagemagick": "0.1.3"
+  },
+  "devDependencies" : {
+    "nodemon": "*"
   }
 }
