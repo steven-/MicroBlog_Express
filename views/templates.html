@@ -1,0 +1,79 @@
+<script type="text/template" id="userTemplate">
+  <li>
+    <a href="/user/<%= username %>">
+    <% if (avatar != "undefined") { %>
+      <img src="/avatars/<%= id %>.<%= avatar %>" />
+    <% } else { %>
+      <img src="/avatars/default_avatar.png" />
+    <% } %>
+      <strong>
+        <%= username %>
+      </strong>
+      <i class="icon-chevron-right"></i>
+      <span>
+        <%= bio %>
+      </span>
+    </a>
+  </li>
+</script>
+
+<script type="text/template" id="messageTemplate">
+  <li>
+    <div>
+      <span><%= new Date(created_at).toLocaleDateString() %></span>
+    </div>
+    <% if (author.avatar != "undefined") { %>
+      <img src="/avatars/<%= author._id %>.<%= author.avatar %>" />
+    <% } else { %>
+      <img src="/avatars/default_avatar.png" />
+    <% } %>
+    <strong><%= author.username %></strong>
+    <q><%= message %></q>
+  </li>
+</script>
+
+
+<script type="text/template" id="newMessageTemplate">
+  <form method="POST" action="/">
+    <fieldset>
+      <label for="message">Message</label>
+      <textarea name="message" id="message" rows="6"></textarea>
+      <input type="hidden" name="_csrf">
+      <input type="submit" value="Send">
+    </fieldset>
+  </form>
+</script>
+
+
+
+
+
+<script type="text/template" id="loginTemplate">
+  <form method="POST" action="">
+    <fieldset>
+      <legend>Sign In</legend>
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" value="">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="">
+      <input type="submit" value="Sign In">
+    </fieldset>
+  </form>
+</script>
+
+
+
+<script type="text/template" id="registerTemplate">
+  <form method="POST" action="/user">
+    <fieldset>
+      <legend>Sign Up</legend>
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" value="">
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" value="">
+      <label for="password_confirmation">Confirm password</label>
+      <input type="password" name="password_confirmation" id="password_confirmation" value="">
+      <input type="submit" value="Sign Up">
+    </fieldset>
+  </form>
+</script>

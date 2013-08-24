@@ -9,7 +9,8 @@ block content
         div
           span= message.created_at.toLocaleDateString()
           if loggedUser && loggedUser.username == message.author.username
-            form(method="", action="/delete/#{message._id}")
+            form(method="POST", action="/#{message._id}")
+              mixin methodOverride('delete')
               button(type="submit") Delete
         mixin avatar(message.author)
         strong=  message.author.username

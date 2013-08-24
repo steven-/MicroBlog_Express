@@ -1,16 +1,18 @@
 extends ../layout
 
 block content
-    form(method="POST", enctype="multipart/form-data")
-        fieldset
-            legend Edit your profile
+  form(action="/user/#{user.username}", method="POST", enctype="multipart/form-data")
+    fieldset
+      legend Edit your profile
 
-            label(for="avatar") Avatar
-            mixin avatar(user)
-            input(type="file", name="avatar", id="avatar")
+      label(for="avatar") Avatar
+      mixin avatar(user)
+      if errors.avatar
+        span.error= errors.avatar.msg
+      input(type="file", name="avatar", id="avatar")
 
-            mixin textarea('Bio', 'bio', user.bio)
+      mixin textarea('Bio', 'bio', user.bio)
+      mixin csrf()
+      mixin methodOverride('put')
 
-            input(type='hidden', name='_csrf', value=csrf_token)
-            input(type="hidden", name="_method", value="put")
-            input(type="submit", value="Save")
+      input(type="submit", value="Save")

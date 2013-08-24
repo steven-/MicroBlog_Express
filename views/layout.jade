@@ -17,7 +17,6 @@ html(lang="en")
 
     include nav
 
-
     section
 
       each messages, type in FlashBag.all
@@ -25,3 +24,46 @@ html(lang="en")
           p(class="alert-#{type}") #{message}
 
       block content
+
+
+    include templates.html
+
+  //-
+    script.
+      var app = app || {
+        Collections: {},
+        Models: {},
+        Views: {
+          message: {},
+          user: {}
+        },
+        Router: {},
+        template: function(id){
+          return _.template($('#' + id).html());
+        }
+      };
+    script(src='/javascript/vendor/jquery.min.js')
+    script(src='/javascript/vendor/underscore-min.js')
+    script(src='/javascript/vendor/backbone-min.js')
+    script.
+      Backbone.View.prototype.close = function(){
+        this.remove();
+        this.$el.off(); // remove dom events
+        this.unbind(); // remove backbone events
+        if (this.onClose){
+          this.onClose();
+        }
+      };
+
+
+    script(src='/javascript/app/models/user.js')
+    script(src='/javascript/app/models/message.js')
+    script(src='/javascript/app/collections/users.js')
+    script(src='/javascript/app/collections/messages.js')
+    script(src='/javascript/app/views/user/list.js')
+    script(src='/javascript/app/views/user/show.js')
+    script(src='/javascript/app/views/message/list.js')
+    script(src='/javascript/app/views/nav.js')
+    script(src='/javascript/app/views/section.js')
+    script(src='/javascript/app/routers/router.js')
+    script(src='/javascript/app/app.js')

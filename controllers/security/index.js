@@ -6,11 +6,21 @@ var db = require('../../database')
   , userForm  = require('../../forms/user-form');
 
 
+  /**
+   *
+   *  SIGN IN (get)
+   *
+   */
 exports.signIn = function (req, res) {
 	res.render('security/sign-in');
 }
 
 
+/**
+ *
+ *  SIGN IN CHECK (post)
+ *
+ */
 exports.signInCheck = function (req, res) {
 	var username = req.body.username
 	  , password = req.body.password;
@@ -40,7 +50,6 @@ exports.signInCheck = function (req, res) {
 					   	var redirectOnceSignedIn = req.session.redirectOnceSignedIn;
 					   	req.session.regenerate(function(){
 		   	        req.session.user = user;
-		   	        console.log();
 		   					res.redirect(redirectOnceSignedIn || '/');
 		   	      });
 					   }
@@ -52,44 +61,50 @@ exports.signInCheck = function (req, res) {
 }
 
 
-
+/**
+ *
+ *  CREATE (get)
+ *
+ */
 exports.create = function (req, res) {
 	res.render('security/sign-up');
 }
 
 
-
-exports.preStore = userForm.checkAccount;
+/**
+ *
+ *  STORE (post)
+ *
+ */
+exports.preStore = function (req, res, next) {
+	var onErrorRedirectTo = '/sign-up';
+	userForm.checkAccount(req, res, next, onErrorRedirectTo);
+}
+//---------------------------------------
 exports.store = function (req, res, next) {
-	var errors = req.validationErrors(true);
-
-	if (errors) {
-		res.render('security/sign-up', {
-			errors: errors,
-			username: req.body.username
-		});
-	}
-	else {
-		pass.hash(req.body.password, function(err, salt, hash){
-		  if (err) return next(err);
-		  UserModel.create({
-		  		username: req.body.username,
-		  		password: hash,
-		  		salt: salt
-		  	},
-		  	function (err, user) {
-		  		if (err) return next(err);
-		  		req.session.user = user;
-		  		res.redirect('/');
-		  	}
-		  );
-		});
-	}
+	pass.hash(req.body.password, function(err, salt, hash){
+	  if (err) return next(err);
+	  UserModel.create({
+	  		username: req.body.username,
+	  		password: hash,
+	  		salt: salt
+	  	},
+	  	function (err, user) {
+	  		if (err) return next(err);
+	  		req.session.user = user;
+	  		res.redirect('/');
+	  	}
+	  );
+	});
 }
 
 
 
-
+/**
+ *
+ *  SIGN OUT (get)
+ *
+ */
 exports.signOut = function (req, res) {
 	req.session.destroy(function(){
 		res.redirect('/');

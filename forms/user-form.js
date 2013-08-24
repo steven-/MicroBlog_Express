@@ -1,24 +1,55 @@
 var UserModel = require('../models/UserModel');
 
-exports.checkProfile = function (req, res, next) {
-  console.log('check the profile');
+exports.checkProfile = function (req, res, next, onErrorRedirectTo) {
   req.checkBody('bio', 'The bio may not be greater than %2 characters')
      .len(0, 160);
-  next();
+
+  var formErrors = req.validationErrors(true) || {};
+
+  // check avatar
+  if (req.files.avatar && req.files.avatar.name) {
+    var file = req.files.avatar;
+    // mime type
+    if( !~ ['image/jpeg', 'image/gif', 'image/png'].indexOf(file.type)) {
+      formErrors.avatar = {
+        param: 'avatar',
+        msg: 'The avatar must be a file of type: jpeg, gif or png.',
+        value: ''
+      };
+    }
+    // size
+    else if (file.size > 2000000) {
+      formErrors.avatar = {
+        param: 'avatar',
+        msg: 'The avatar may not be greater than 2 Mo.',
+        value: ''
+      };
+    }
+  }
+  if ( !! Object.keys(formErrors).length) { // invalid form data
+    req.session.errors = formErrors;
+    res.redirect(onErrorRedirectTo);
+  }
+  else  next(); // form is valid
 }
 
 
-exports.checkAccount = function (req, res, next) {
+exports.checkAccount = function (req, res, next, onErrorRedirectTo) {
   req.checkBody('username', 'The username may not be greater than %2 characters').len(1, 30);
   req.checkBody('username', 'The username may only contain letters, numbers, and dashes').is('[A-Za-z0-9_-]+');
   req.checkBody('username', 'This value should not be blank').notEmpty();
   req.checkBody('password', 'This value should not be blank').notEmpty();
   req.checkBody('password_confirmation', 'The confirmation and password must match').equals(req.body.password);
 
-  var errors = req.validationErrors(true);
+  var errors = req.validationErrors(true) || {};
 
-  if (errors && errors.username ) { // username invalid
-    next();
+  var fail = function () {
+    req.session.errors = errors;
+    res.redirect(onErrorRedirectTo);
+  }
+
+  if ( !! errors.username ) { // username invalid
+    fail();
   }
   else {
     UserModel
@@ -26,18 +57,14 @@ exports.checkAccount = function (req, res, next) {
       .exec(function (err, user) {
         if (err) return next(err);
         if (user)  { // username already taken
-          console.log('already');
-          errors = req.validationErrors(false); // we don't use the 'errors' var, we need another format
-          errors.push({
+          errors.username = {
             param: 'username',
             msg: 'This username has already been taken',
             value: req.body.username
-          });
-
-          // it's a bit tricky since it's a 'private' var of the express-validator module
-          req._validationErrors = errors;
+          };
+          fail();
         }
-        next();
+        else next(); // everything is ok
       });
   }
 }

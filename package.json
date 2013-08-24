@@ -10,7 +10,6 @@
     "jade": "*",
     "mongoose": "3.6.16",
     "express-validator": "0.7.0",
-    "express-form": "0.8.0",
     "async": "0.2.9",
     "imagemagick": "0.1.3"
   },

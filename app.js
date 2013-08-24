@@ -48,9 +48,11 @@ if ('development' == app.get('env')) {
 }
 
 
-app.locals.errors = {};
+// app.locals.errors = {};
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
+  res.locals.errors = req.session.errors || {};
+  // req.session.errors = null;
   res.locals.loggedUser = req.session.user || null;
   res.locals.csrf_token = req.session._csrf;
   res.locals.req = req; // for nav
@@ -67,6 +69,7 @@ require('./lib/boot')(app);
 
 //  catch-all 404 handler
 app.use(function (req, res, next) {
+  console.log(req.url);
   next({msg: 'Not found', status: 404});
 });
 
@@ -74,36 +77,37 @@ app.use(function (req, res, next) {
 
 
 
+// // if ('development' !== app.get('env')) {
+//   // error handler
+//   app.use(function (err, req, res, next) {
+//     console.log(err);
+//     // we only send our customs error messages as a response
+//     // (from 'err.msg') but not the 'error.message'
+//     var errStatus = err.status || 500
+//       , errMsg    = err.message || err.msg || "Something broke"; // dev
+//       // , errMsg    = err.msg || "Something broke";
 
-// error handler
-app.use(function (err, req, res, next) {
-  console.log(err);
-  // we only send our customs error messages as a response
-  // (from 'err.msg') but not the 'error.message'
-  var errStatus = err.status || 500
-    , errMsg    = err.message || err.msg || "Something broke"; // dev
-    // , errMsg    = err.msg || "Something broke";
 
+//       // respond with html
+//       if (req.accepts('html')) {
+//         res.statusCode = errStatus;
+//         res.render('errors/error', {
+//           status: errStatus,
+//           message: errMsg
+//         });
+//         return;
+//       }
 
-    // respond with html
-    if (req.accepts('html')) {
-      res.statusCode = errStatus;
-      res.render('errors/error', {
-        status: errStatus,
-        message: errMsg
-      });
-      return;
-    }
+//       // respond with json
+//       if (req.accepts('json')) {
+//         res.send(errStatus, errMsg);
+//         return;
+//       }
 
-    // respond with json
-    if (req.accepts('json')) {
-      res.send(errStatus, errMsg);
-      return;
-    }
-
-    // default to plain-text
-    res.type('txt').send(errMsg);
-});
+//       // default to plain-text
+//       res.type('txt').send(errMsg);
+//   });
+// // }
 
 
 

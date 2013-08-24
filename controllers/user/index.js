@@ -19,7 +19,8 @@ exports.restrictedActions = ['edit', 'update'];
 exports.list = function(req, res, next){
   UserModel.findAllOrderedByNameASC(function (err, users) {
     if (err) throw err;
-    res.render('user/list', { users: users });
+    if (req.xhr) res.json(users);
+    else res.render('user/list', { users: users });
   });
 }
 
@@ -57,32 +58,25 @@ exports.edit = function (req, res, next) {
  *
  *  UPDATE (post)
  */
-exports.preUpdate = userForm.checkProfile;
- //---------------------------------------
+// exports.preUpdate = userForm.checkProfile;
+exports.preUpdate = function (req, res, next) {
+  var onErrorRedirectTo = '/edit-profile';
+  userForm.checkProfile(req, res, next, onErrorRedirectTo);
+}
+//---------------------------------------
 exports.update = function (req, res, next) {
+  UserModel.findByName(
+    req.session.user.username,
+    function (err , user) {
+      if (err) return next(err);
 
-  var errors = req.validationErrors(true);
-
-  if (errors) {
-    res.render('user/edit', {
-      errors: errors,
-      user: req.session.user
-    });
-  }
-  else {
-    UserModel.findByName(
-      req.session.user.username,
-      function (err , user) {
-        if (err) return next(err);
-
-        user.bio = req.body.bio;
-        req.files.avatar.name && user.setUploadedFile(req.files);
-        user.save(function (err, user) {
-          if (err) throw err;
-          req.session.user = user; // stores user.toJSON() result
-          res.redirect('/profile/' + user.username );
-        });
-      }
-    );
-  }
+      user.bio = req.body.bio;
+      req.files.avatar.name && user.setUploadedFile(req.files);
+      user.save(function (err, user) {
+        if (err) throw err;
+        req.session.user = user; // stores user.toJSON() result
+        res.redirect('/user/' + user.username );
+      });
+    }
+  );
 }

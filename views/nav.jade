@@ -3,16 +3,11 @@ nav
     ul.wrapper
 
         mixin navli("/", "Messages", "quote-right")
-        mixin navli("/users", "Users", "group")
+        mixin navli("/user", "Users", "group")
         if (loggedUser)
-            mixin navli("/new-message", "New Message", "pencil")
+            mixin navli("/new", "New Message", "pencil")
             mixin fuckupNavli('/user/' + loggedUser.username, loggedUser.username, 'user')
-
             mixin navli("/sign-out", "Sign Out", null, "connection")
         else
             mixin navli("/sign-up", "Sign Up", null, "connection")
             mixin navli("/sign-in", "Sign In", null, "connection")
-
-
-
-
